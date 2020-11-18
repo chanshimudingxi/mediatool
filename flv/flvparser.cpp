@@ -1,8 +1,10 @@
 #include <string>
-#include <ifstream>
+#include <fstream>
 #include <cassert>
 #include <cstring>
 #include <cstdlib>
+#include <iostream>
+
 #include "flvparser.h"
 
 using std::ifstream;
@@ -11,7 +13,7 @@ using std::string;
 bool FlvParser::parse_file(std::string filename)
 {
     ifstream fs;
-    fs.open(filename,fstream::binary);
+    fs.open(filename.c_str(),ifstream::binary|ifstream::in);
 
     char * file_head_buffer = new char [FlvHeader::SIZE];
     assert(NULL != file_head_buffer);
@@ -21,12 +23,13 @@ bool FlvParser::parse_file(std::string filename)
 
     if(!m_flv_header.Decode(str_file_head))
     {
+		std::cerr<<"file header decode fail"<<std::endl;
         fs.close();
         return false;
     }
 
     //tag
-    while(fs.eof())
+    while(fs)
     {
         FlvTag flvtag;
 
@@ -38,6 +41,7 @@ bool FlvParser::parse_file(std::string filename)
         delete [] tag_head_buffer;
         if(!flvtag.header.Decode(str_tag_head))
         {
+			std::cerr<<"tag header decode fail"<<std::endl;
             break;
         }
         m_flv_tagheader.push_back(flvtag.header);
@@ -47,11 +51,22 @@ bool FlvParser::parse_file(std::string filename)
         memcpy(&body_size, flvtag.header.content, 3);
         char* tag_body_buffer = new char[body_size];
         assert(NULL != tag_body_buffer);
-        fs.read(tag_body_buffer, body_size);
-        string str_tag_body(tag_body_buffer, body_size);
-        delete [] tag_head_buffer;
-        flvtag.data = str_tag_body;
-    }
+		std::cout<<"tag body size: "<<body_size<<std::endl;
+		fs.read(tag_body_buffer, body_size);
+
+		if (fs)
+		{
+			string str_tag_body(tag_body_buffer, body_size);
+			delete [] tag_head_buffer;
+			flvtag.data = str_tag_body;
+		}
+		else
+		{
+			delete [] tag_head_buffer;
+			std::cerr << "error: only " << fs.gcount() << " could be read"<<std::endl;
+			break;
+		}
+	}
 
     fs.close();
     return true;
