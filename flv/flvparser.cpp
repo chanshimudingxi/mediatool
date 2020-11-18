@@ -1,16 +1,16 @@
 #include <string>
-#include <fstream>
+#include <ifstream>
 #include <cassert>
 #include <cstring>
 #include <cstdlib>
 #include "flvparser.h"
 
-using std::fstream;
+using std::ifstream;
 using std::string;
 
 bool FlvParser::parse_file(std::string filename)
 {
-    fstream fs;
+    ifstream fs;
     fs.open(filename,fstream::binary);
 
     char * file_head_buffer = new char [FlvHeader::SIZE];

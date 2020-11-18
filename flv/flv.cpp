@@ -11,10 +11,10 @@ bool FlvHeader::Decode(const std::string& from)
     {
         return false;
     }
-    memcpy(mark,from.data,3);
-    memcpy(&version,from.data+3,1);
-    memcpy(&flag,from.data+4,1);
-    memcpy(reserve,from.data+5,4);
+    memcpy(mark,(void*)from.data,3);
+    memcpy(&version,(void*)(from.data+3),1);
+    memcpy(&flag,(void*)(from.data+4),1);
+    memcpy(reserve,(void*)(from.data+5),4);
     return true;
 }
 
@@ -38,12 +38,12 @@ bool FlvTagHeader::Decode(const std::string& from)
     {
         return false;
     }
-    memcpy(&pre_tag_len,from.data,4);
-    memcpy(&type,from.data+4,1);
-    memcpy(content,from.data+5,3);
-    memcpy(time,from.data+8,3);
-    memcpy(&timeext,from.data+11,1);
-    memcpy(streamid,from.data+12,3);
+    memcpy(&pre_tag_len,(void*)from.data,4);
+    memcpy(&type,(void*)(from.data+4),1);
+    memcpy(content,(void*)(from.data+5),3);
+    memcpy(time,(void*)(from.data+8),3);
+    memcpy(&timeext,(void*)(from.data+11),1);
+    memcpy(streamid,(void*)(from.data+12),3);
     return true;
 }
 
@@ -82,9 +82,4 @@ bool FlvTag::Encode(std::string* to)
     {
         to->append(data);
     }
-}
-
-size_t FlvHeader::Size()
-{
-    return header.Size() + data.size();
 }
