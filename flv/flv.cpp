@@ -1,4 +1,6 @@
 #include "flv.h"
+#include <cstdlib>
+#include <cstring>
 
 size_t FlvHeader::SIZE = 9;
 size_t FlvTagHeader::SIZE = 15;
