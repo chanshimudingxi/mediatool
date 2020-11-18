@@ -1,6 +1,8 @@
 #include <string>
 #include <fstream>
 #include <cassert>
+#include <cstring>
+#include <cstdlib>
 #include "flvparser.h"
 
 using std::fstream;
