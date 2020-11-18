@@ -40,7 +40,7 @@ struct FlvTagHeader
 };
 
 
-class FlvTag
+struct FlvTag
 {
     FlvTagHeader header;
     std::string data;
