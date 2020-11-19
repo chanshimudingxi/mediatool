@@ -21,7 +21,7 @@ struct FlvHeader
     uint8_t flag;//前5个bit是保留的必须是0,第6个bit音频类型标志（TypeFlagsAudio），第7个bit也是保留的必须是0，第8个bit视频类型标志（TypeFlagsVideo）
     uint8_t reserve[4];//保留,数据为0x00000009
 
-    bool Decode(const std::string&);
+    bool Decode(char* from, int size);
     bool Encode(std::string*);
     static size_t SIZE;
 };
@@ -35,7 +35,7 @@ struct FlvTagHeader
     uint8_t timeext;//时间戳扩展,本字节作为时间戳的最高位
     uint8_t streamid[3];//streamID
 
-    bool Decode(const std::string&);
+    bool Decode(char* from, int size);
     bool Encode(std::string*);
     static size_t SIZE;
 };
@@ -46,7 +46,7 @@ struct FlvTag
     FlvTagHeader header;
     std::string data;
 
-    bool Decode(const std::string&);
+    bool Decode(char* from, int size);
     bool Encode(std::string*);
     size_t Size();
 };

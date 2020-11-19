@@ -5,16 +5,20 @@
 size_t FlvHeader::SIZE = 9;
 size_t FlvTagHeader::SIZE = 15;
 
-bool FlvHeader::Decode(const std::string& from)
+bool FlvHeader::Decode(char* from, int size)
 {
-    if(from.size() < FlvHeader::SIZE)
+    if(size < FlvHeader::SIZE || from == NULL)
     {
         return false;
     }
-    memcpy((void*)mark,(void*)from.data(),3);
-    memcpy((void*)&version,(void*)(from.data()+3),1);
-    memcpy((void*)&flag,(void*)(from.data()+4),1);
-    memcpy((void*)reserve,(void*)(from.data()+5),4);
+    char* cur = from;
+    memcpy((void*)mark,(void*)cur,3);
+    cur += 3;
+    memcpy((void*)&version,(void*)cur,1);
+    cur += 1;
+    memcpy((void*)&flag,(void*)cur,1);
+    cur += 1;
+    memcpy((void*)reserve,(void*)cur,4);
     return true;
 }
 
@@ -32,18 +36,24 @@ bool FlvHeader::Encode(std::string* to)
 }
 
 
-bool FlvTagHeader::Decode(const std::string& from)
+bool FlvTagHeader::Decode(char* from, int size)
 {
-    if(from.size() < FlvTagHeader::SIZE)
+    if(size < FlvTagHeader::SIZE || from == NULL)
     {
         return false;
     }
-    memcpy(&pre_tag_len,(void*)from.data(),4);
-    memcpy(&type,(void*)(from.data()+4),1);
-    memcpy(content,(void*)(from.data()+5),3);
-    memcpy(time,(void*)(from.data()+8),3);
-    memcpy(&timeext,(void*)(from.data()+11),1);
-    memcpy(streamid,(void*)(from.data()+12),3);
+    char* cur = from;
+    memcpy(&pre_tag_len,(void*)cur,4);
+    cur += 4;
+    memcpy(&type,(void*)cur,1);
+    cur += 1;
+    memcpy(content,(void*)cur,3);
+    cur += 3;
+    memcpy(time,(void*)cur,3);
+    cur += 3;
+    memcpy(&timeext,(void*)cur,1);
+    cur += 1;
+    memcpy(streamid,(void*)cur,3);
     return true;
 }
 
@@ -63,11 +73,11 @@ bool FlvTagHeader::Encode(std::string* to)
 }
 
 
-bool FlvTag::Decode(const std::string& from)
+bool FlvTag::Decode(char* from, int size)
 {
-    if(header.Decode(from))
+    if(header.Decode(from,size))
     {
-        data = from.substr(FlvTagHeader::SIZE);
+        data.append(from+FlvTagHeader::SIZE,size);
         return true;
     }
     else

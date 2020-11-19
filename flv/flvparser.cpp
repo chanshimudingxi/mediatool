@@ -18,15 +18,16 @@ bool FlvParser::parse_file(std::string filename)
     char * file_head_buffer = new char [FlvHeader::SIZE];
     assert(NULL != file_head_buffer);
     fs.read(file_head_buffer, FlvHeader::SIZE);
-    string str_file_head(file_head_buffer,FlvHeader::SIZE);
-    delete [] file_head_buffer;
 
-    if(!m_flv_header.Decode(str_file_head))
+    if(!m_flv_header.Decode(file_head_buffer, FlvHeader::SIZE))
     {
 		std::cerr<<"file header decode fail"<<std::endl;
+        delete [] file_head_buffer;
         fs.close();
         return false;
     }
+    delete [] file_head_buffer;
+
 
     //tag
     while(fs)
@@ -37,14 +38,14 @@ bool FlvParser::parse_file(std::string filename)
         char * tag_head_buffer = new char [FlvTagHeader::SIZE];
         assert(NULL != tag_head_buffer);
         fs.read(tag_head_buffer, FlvTagHeader::SIZE);
-        string str_tag_head(tag_head_buffer, FlvTagHeader::SIZE);
-        delete [] tag_head_buffer;
-        if(!flvtag.header.Decode(str_tag_head))
+        if(!flvtag.header.Decode(tag_head_buffer, FlvTagHeader::SIZE))
         {
 			std::cerr<<"tag header decode fail"<<std::endl;
+            delete [] tag_head_buffer;
             break;
         }
         m_flv_tagheader.push_back(flvtag.header);
+        delete [] tag_head_buffer;
 
         //body
         uint32_t body_size = 0;
