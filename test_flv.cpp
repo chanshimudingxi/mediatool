@@ -18,10 +18,10 @@ int main()
         cout<<"tag_header:"<<endl
             <<"    len:"<<hex<<tag_header.pre_tag_len<<endl
             <<"    type:"<<hex<<tag_header.type<<endl
-            <<"    content:"<<tag_header.content[0]<<tag_header.content[1]<<tag_header.content[2]<<endl
-            <<"    time:"<<tag_header.time[0]<<tag_header.time[1]<<tag_header.time[2]<<endl
+            <<"    content:"<<hex<<tag_header.content[0]<<tag_header.content[1]<<tag_header.content[2]<<endl
+            <<"    time:"<<hex<<tag_header.time[0]<<tag_header.time[1]<<tag_header.time[2]<<endl
             <<"    timeext:"<<tag_header.timeext<<endl
-            <<"    streamid:"<<tag_header.streamid[0]<<tag_header.streamid[1]<<tag_header.streamid[2]<<endl;
+            <<"    streamid:"<<hex<<tag_header.streamid[0]<<tag_header.streamid[1]<<tag_header.streamid[2]<<endl;
     }
     return 0;
 }
