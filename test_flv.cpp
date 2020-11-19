@@ -8,7 +8,7 @@ int main()
     FlvParser  flvparser;
     flvparser.parse_file("test.flv");
     cout<<"file_header:"<<endl
-        <<"    mark:"<<hex<<flvparser.m_flv_header.mark[0]<<flvparser.m_flv_header.mark[1] <<flvparser.m_flv_header.mark[2]<<endl
+        <<"    mark:"<<flvparser.m_flv_header.mark[0]<<flvparser.m_flv_header.mark[1] <<flvparser.m_flv_header.mark[2]<<endl
         <<"    version:"<<hex<<flvparser.m_flv_header.version<<endl
         <<"    flag:"<<hex<<flvparser.m_flv_header.flag<<endl;
 
@@ -18,10 +18,10 @@ int main()
         cout<<"tag_header:"<<endl
             <<"    len:"<<hex<<tag_header.pre_tag_len<<endl
             <<"    type:"<<hex<<tag_header.type<<endl
-            <<"    content:"<<hex<<tag_header.content[0]<<tag_header.content[1]<<tag_header.content[2]<<endl
-            <<"    time:"<<hex<<tag_header.time[0]<<tag_header.time[1]<<tag_header.time[2]<<endl
+            <<"    content:"<<dec<<tag_header.GetContentSize()<<endl
+            <<"    time:"<<dec<<tag_header.GetTimeMs()<<endl
             <<"    timeext:"<<tag_header.timeext<<endl
-            <<"    streamid:"<<hex<<tag_header.streamid[0]<<tag_header.streamid[1]<<tag_header.streamid[2]<<endl;
+            <<"    streamid:"<<dec<<tag_header.GetStreamId()<<endl;
     }
     return 0;
 }
