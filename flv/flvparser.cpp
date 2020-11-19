@@ -30,7 +30,7 @@ bool FlvParser::parse_file(std::string filename)
             fs.read(buffer, contentSize);
             if(fs)
             {
-                std::cout << "tag body size: " << contentSize
+                std::cout << "tag content_size: " << contentSize
                     <<", time: "<<flvTagHeader.GetTimeMs()
                     <<", streamid: "<<flvTagHeader.GetStreamId()
                     <<std::endl;

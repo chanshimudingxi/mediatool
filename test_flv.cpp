@@ -12,9 +12,9 @@ int main()
         <<"    version:"<<hex<<flvparser.m_flv_header.version<<endl
         <<"    flag:"<<hex<<flvparser.m_flv_header.flag<<endl;
 
-    for(int i=0; i<flvparser.m_flv_tagheader.size(); ++i)
+    for(int i=0; i<flvparser.m_flv_tagheaders.size(); ++i)
     {
-        FlvTagHeader& tag_header = flvparser.m_flv_tagheader[i];
+        FlvTagHeader& tag_header = flvparser.m_flv_tagheaders[i];
         cout<<"tag_header:"<<endl
             <<"    len:"<<hex<<tag_header.pre_tag_len<<endl
             <<"    type:"<<hex<<tag_header.type<<endl
