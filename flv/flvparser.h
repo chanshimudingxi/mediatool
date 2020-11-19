@@ -13,7 +13,7 @@ public:
     bool parse_file(std::string filename);
 public:
     FlvHeader m_flv_header;
-    std::vector<FlvTagHeader> m_flv_tagheader;
+    std::vector<FlvTagHeader> m_flv_tagheaders;
 };
 
 
