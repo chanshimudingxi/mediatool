@@ -16,7 +16,7 @@ int main()
     {
         FlvTagHeader& tag_header = flvparser.m_flv_tagheaders[i];
         cout<<"tag_header:"<<endl
-            <<"    len:"<<hex<<tag_header.pre_tag_len<<endl
+            <<"    len:"<<dec<<tag_header.pre_tag_len<<endl
             <<"    type:"<<hex<<tag_header.type<<endl
             <<"    content:"<<dec<<tag_header.GetContentSize()<<endl
             <<"    time:"<<dec<<tag_header.GetTimeMs()<<endl
